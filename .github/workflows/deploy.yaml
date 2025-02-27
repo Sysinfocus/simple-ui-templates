@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          dotnet-version: '9.0.x'
 
       - name: Change base href
         run: |
