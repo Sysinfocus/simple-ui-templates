@@ -31,16 +31,16 @@ jobs:
       - name: Modify base href for GitHub Pages
         run: |
           # Replace the base href in the index.html file to point to the repository
-          sed -i 's|<base href="/">|<base href="/<your-repo-name>/">|' ./publish/wwwroot/index.html
+          sed -i 's|<base href="/">|<base href="/<your-repo-name>/">|' /home/runner/work/simple-ui-templates/simple-ui-templates/publish/wwwroot/index.html
 
       - name: Add .nojekyll file
         run: |
           # Create the .nojekyll file to disable Jekyll processing on GitHub Pages
-          touch ./publish/wwwroot/.nojekyll
+          touch /home/runner/work/simple-ui-templates/simple-ui-templates/publish/wwwroot/.nojekyll
 
       - name: Copy index.html to 404.html 📄
         run: |
-          cp ./publish/wwwroot/index.html ./publish/wwwroot/404.html  
+          cp /home/runner/work/simple-ui-templates/simple-ui-templates/publish/wwwroot/index.html /home/runner/work/simple-ui-templates/simple-ui-templates/publish/wwwroot/404.html  
 
       - name: Deploy to gh-pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
