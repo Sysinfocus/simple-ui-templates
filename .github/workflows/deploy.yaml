@@ -25,7 +25,7 @@ jobs:
           dotnet-version: '9.0'
 
       - name: Publish
-        run: dotnet publish ./src/SimpleUITemplates.UI/SimpleUITemplates.UI.csproj -c Release -o ./publish/wwwroot -v diag
+        run: dotnet publish ./src/SimpleUITemplates.UI/SimpleUITemplates.UI.csproj -c Release -o ./publish/wwwroot
 
       - name: List publish directory
         run: ls -R ./publish/wwwroot
@@ -56,3 +56,4 @@ jobs:
         with:
           branch: gh-pages
           folder: ./publish/wwwroot
+          clean: true  # Optional: Use this if you want to clean the branch before deploying
