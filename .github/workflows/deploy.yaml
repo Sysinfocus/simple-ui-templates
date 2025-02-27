@@ -1,8 +1,8 @@
-﻿name: Build and Deploy
+name: Build and Deploy
 
 on:
-#  push:
-#    branches: [ "master" ]
+  # push:
+  #   branches: [ "master" ]
   workflow_dispatch:
 
 env:
@@ -19,6 +19,8 @@ jobs:
 
     steps:
       - name: Checkout
+        uses: actions/checkout@v3  # Ensure this is checkout, not setup-dotnet
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '9.0'
@@ -44,4 +46,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: .publish/wwwroot
+          folder: ./publish/wwwroot  # Fixed folder path here
