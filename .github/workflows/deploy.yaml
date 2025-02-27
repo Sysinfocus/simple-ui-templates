@@ -9,7 +9,6 @@ env:
   NETCORE_VERSION: "9.0.x"
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  SRC: "/home/runner/work/simple-ui-templates/src/SimpleUITemplates.UI"
 
 jobs:
   build-and-deploy:
@@ -22,29 +21,27 @@ jobs:
       - name: Checkout
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0.x'
-
-      - name: Change base href
-        run: |
-          cd ${{ env.SRC }}
-          REPO_NAME=$(echo "${{ github.repository }}" | awk -F '/' '{print $NF}')
-          sed -i 's/<base href="\/"[[:blank:]]*\/>/<base href="\/'$REPO_NAME'\/" \/>/g' ./wwwroot/index.html
+          dotnet-version: '9.0'
 
       - name: Publish
-        run: dotnet publish ${{ env.SRC }} --configuration Release --output dist
+        run: dotnet publish ./src/SimpleUITemplates.UI/SimpleUITemplates.UI.csproj --configuration Release --output ./publish/wwwroot
 
-      # https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
-      # Folders starting with _ are handled as jekyll. This file will prevent that.
-      # Because blazor framework uses _framework folder, we need to prevent jekyll from processing it.
-      - name: Create .nojekyll file 📁
-        run: touch dist/wwwroot/.nojekyll
+      - name: Modify base href for GitHub Pages
+        run: |
+          # Replace the base href in the index.html file to point to the repository
+          sed -i 's|<base href="/">|<base href="/<your-repo-name>/">|' ./publish/wwwroot/index.html
+
+      - name: Add .nojekyll file
+        run: |
+          # Create the .nojekyll file to disable Jekyll processing on GitHub Pages
+          touch ./publish/wwwroot/.nojekyll
 
       - name: Copy index.html to 404.html 📄
         run: |
-          cp dist/wwwroot/index.html dist/wwwroot/404.html  
+          cp ./publish/wwwroot/index.html ./publish/wwwroot/404.html  
 
       - name: Deploy to gh-pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: dist/wwwroot
+          folder: .publish/wwwroot
