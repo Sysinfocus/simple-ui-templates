@@ -24,7 +24,7 @@ jobs:
           dotnet-version: '9.0'
 
       - name: Publish
-        run: dotnet publish ./src/SimpleUITemplates.UI/SimpleUITemplates.UI.csproj --configuration Release --output ./publish/wwwroot
+        run: dotnet publish /src/SimpleUITemplates.UI/SimpleUITemplates.UI.csproj --configuration Release --output ./publish/wwwroot
 
       - name: Modify base href for GitHub Pages
         run: |
