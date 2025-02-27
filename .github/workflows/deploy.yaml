@@ -1,0 +1,48 @@
+﻿name: Build and Deploy
+
+on:
+#  push:
+#    branches: [ "master" ]
+  workflow_dispatch:
+
+env:
+  NETCORE_VERSION: "9.0.x"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  SRC: "/home/runner/work/klean/klean/src/src"
+
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Change base href
+        run: |
+          cd ${{ env.SRC }}/Presentation
+          REPO_NAME=$(echo "${{ github.repository }}" | awk -F '/' '{print $NF}')
+          sed -i 's/<base href="\/"[[:blank:]]*\/>/<base href="\/'$REPO_NAME'\/" \/>/g' ./wwwroot/index.html
+
+      - name: Publish
+        run: dotnet publish ${{ env.SRC }}/Presentation --configuration Release --output dist
+
+      # https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
+      # Folders starting with _ are handled as jekyll. This file will prevent that.
+      # Because blazor framework uses _framework folder, we need to prevent jekyll from processing it.
+      - name: Create .nojekyll file 📁
+        run: touch dist/wwwroot/.nojekyll
+
+      - name: Copy index.html to 404.html 📄
+        run: |
+          cp dist/wwwroot/index.html dist/wwwroot/404.html  
+
+      - name: Deploy to gh-pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist/wwwroot
