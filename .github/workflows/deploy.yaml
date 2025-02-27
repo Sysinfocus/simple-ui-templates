@@ -4,27 +4,30 @@ on:
   workflow_dispatch:
 
 jobs:
-    deploy-to-github-pages:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            - name: Setup .NET Core SDK
-              uses: actions/setup-dotnet@v1
-              with:
-                  dotnet-version: 9.x                  
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 9.x                  
 
-            - name: Publish .NET Core Project
-              run: dotnet publish src/SimpleUITemplates.UI/SimpleUITemplates.UI.csproj -c Release -o release --nologo
+      - name: Publish .NET Core Project
+        run: dotnet publish src/SimpleUITemplates.UI/SimpleUITemplates.UI.csproj -c Release -o release --nologo
 
-            - name: copy index.html to 404.html
-              run: cp release/wwwroot/index.html release/wwwroot/404.html
+      - name: Copy index.html to 404.html
+        run: cp release/wwwroot/index.html release/wwwroot/404.html
 
-            - name: Add .nojekyll file
-              run: touch release/wwwroot/.nojekyll
+      - name: Add .nojekyll file
+        run: touch release/wwwroot/.nojekyll
 
-            - name: Commit wwwroot to GitHub Pages
-              uses: JamesIves/github-pages-deploy-action@3.7.1
-              with:                  
-                  BRANCH: gh-pages
-                  FOLDER: release/wwwroot
+      - name: Commit wwwroot to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          BRANCH: gh-pages
+          FOLDER: release/wwwroot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically provides this token
