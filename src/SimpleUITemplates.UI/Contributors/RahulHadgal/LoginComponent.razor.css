@@ -1,0 +1,85 @@
+﻿.login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 420px;
+    border: 1px solid var(--primary-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+    .login-container a {
+        text-decoration: none;
+        color: var(--primary-fg);
+    }
+    .login-container a:hover {
+        text-decoration: underline;        
+    }
+
+.login-welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;    
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;          
+}
+
+.forgot-password {
+    position: absolute;
+    margin-top: -3rem;
+    right: 0;
+    font-size: 14px;
+    font-weight: normal !important;
+}
+
+::deep .sbc-button {
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
+.sign-in-others {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;    
+}
+
+::deep .sbc-icon {
+    height: 1rem;
+    margin-right: 0.25rem;
+}
+
+.continue-with {
+    width: 100%;
+    text-align: center;
+    font-size: 0.75rem;
+    position: relative;
+}
+
+    .continue-with::before,
+    .continue-with::after {
+        position: absolute;
+        content: "";
+        left: 0;
+        width: 32%;
+        border-top: 1px solid var(--primary-border);
+        top: 0.5rem;
+    }
+
+    .continue-with::after {
+        left: unset;
+        right: 0;
+    }
+
+    .continue-with span {
+        display: block;
+        z-index: 1;
+    }
