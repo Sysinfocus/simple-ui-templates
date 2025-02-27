@@ -1,0 +1,16 @@
+﻿@inherits LayoutComponentBase
+
+<div class="container" @onclick="initialization.HandleMainLayoutClickEvent">
+    @Body
+</div>
+
+@code
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await initialization.InitializeTheme();
+        }
+    }
+}
