@@ -9,7 +9,7 @@ env:
   NETCORE_VERSION: "9.0.x"
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  SRC: "/home/runner/work/klean/klean/src/src"
+  SRC: "/src/SimpleUITemplates.UI"
 
 jobs:
   build-and-deploy:
@@ -24,12 +24,12 @@ jobs:
 
       - name: Change base href
         run: |
-          cd ${{ env.SRC }}/Presentation
+          cd ${{ env.SRC }}
           REPO_NAME=$(echo "${{ github.repository }}" | awk -F '/' '{print $NF}')
           sed -i 's/<base href="\/"[[:blank:]]*\/>/<base href="\/'$REPO_NAME'\/" \/>/g' ./wwwroot/index.html
 
       - name: Publish
-        run: dotnet publish ${{ env.SRC }}/Presentation --configuration Release --output dist
+        run: dotnet publish ${{ env.SRC }} --configuration Release --output dist
 
       # https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
       # Folders starting with _ are handled as jekyll. This file will prevent that.
