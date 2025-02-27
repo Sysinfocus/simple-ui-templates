@@ -3,57 +3,28 @@ name: Build and Deploy
 on:
   workflow_dispatch:
 
-env:
-  NETCORE_VERSION: "9.0.x"
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
-
 jobs:
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    deploy-to-github-pages:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+            - name: Setup .NET Core SDK
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: 9.x                  
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '9.0'
+            - name: Publish .NET Core Project
+              run: dotnet publish src/SimpleUITemplates.UI/SimpleUITemplates.UI.csproj -c Release -o release --nologo
 
-      - name: Publish
-        run: dotnet publish ./src/SimpleUITemplates.UI/SimpleUITemplates.UI.csproj -c Release -o ./publish/wwwroot
+            - name: copy index.html to 404.html
+              run: cp release/wwwroot/index.html release/wwwroot/404.html
 
-      - name: List publish directory
-        run: ls -R ./publish/wwwroot
+            - name: Add .nojekyll file
+              run: touch release/wwwroot/.nojekyll
 
-      - name: Modify base href for GitHub Pages
-        run: |
-          # Check if index.html exists before attempting to modify it
-          if [ -f ./publish/wwwroot/index.html ]; then
-            sed -i 's|<base href="/">|<base href="/<your-repo-name>/">|' ./publish/wwwroot/index.html
-          else
-            echo "index.html not found!"
-          fi
-
-      - name: Add .nojekyll file
-        run: |
-          touch ./publish/wwwroot/.nojekyll
-
-      - name: Copy index.html to 404.html 📄
-        run: |
-          if [ -f ./publish/wwwroot/index.html ]; then
-            cp ./publish/wwwroot/index.html ./publish/wwwroot/404.html
-          else
-            echo "index.html not found!"
-          fi
-
-      - name: Deploy to gh-pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: ./publish/wwwroot
-          clean: true  # Optional: Use this if you want to clean the branch before deploying
+            - name: Commit wwwroot to GitHub Pages
+              uses: JamesIves/github-pages-deploy-action@3.7.1
+              with:                  
+                  BRANCH: gh-pages
+                  FOLDER: release/wwwroot
