@@ -1,7 +1,19 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="container" @onclick="initialization.HandleMainLayoutClickEvent">
-    @Body
+    <div class="container-header">
+        <div class="flex-col g4">
+            <h3>Simple/ui Templates</h3>
+            <small class="muted">Find your favorite UI templates built using Sysinfocus simple/ui component library.</small>
+        </div>
+        <div class="flex">
+            <Icon Name="@GetIcon()" OnClick="@ToggleTheme" />
+        </div>
+    </div>
+    
+    <div class="container-body">
+        @Body
+    </div>    
 </div>
 
 @code
@@ -13,4 +25,7 @@
             await initialization.InitializeTheme();
         }
     }
+
+    private string GetIcon() => initialization.CurrentTheme == "light" ? "dark_mode" : "light_mode";
+    private async Task ToggleTheme() => await initialization.ToggleTheme();
 }
