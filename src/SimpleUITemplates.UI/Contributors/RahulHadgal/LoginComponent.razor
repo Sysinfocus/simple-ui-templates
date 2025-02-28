@@ -1,35 +1,43 @@
-﻿<div class="login-container">
-    <div class="login-welcome">
-        <Avatar Name="A" />
-        <h3 class="mt05">Welcome back</h3>
-        <small class="muted-color">Sign in to your account to continue</small>
-    </div>
-    <div class="login-form">
-        <Input TItem="string" Label="Email" Type="email" Placeholder="name@example.com" />
-        <Group>
-            <a class="forgot-password" href="#">Forgot password?</a>
-            <Input TItem="string" Label="Password" Type="password" Placeholder="••••••••••" />
-        </Group>
-        <Button Text="Sign in" Class="sign-in-button" OnClick="HandleLogin" />
-        <div class="continue-with">
-            <span class="muted-color">OR CONTINUE WITH</span>
+﻿<Card Width="420px">
+    <CardHeader>
+        <div class="login-header">
+            <Avatar Name="A" />
+            <h3 class="mt05">Welcome back</h3>
+            <small class="muted-color">Sign in to your account to continue</small>
         </div>
-        <div class="sign-in-others">
-            <Button Type="ButtonType.Outline" Class="sign-in-button" Width="100%" OnClick="HandleGitHubLogin">
-                <Icon Name="github" Type="IconType.Lucide" Size="16px" /> GitHub
-            </Button>
-            <Button Type="ButtonType.Outline" Class="sign-in-button" Width="100%" OnClick="HandleGoogleLogin">
-                <Icon Name="mail" Type="IconType.Lucide" Size="16px" /> Google
-            </Button>
+    </CardHeader>
+    <CardContent>
+        <div class="login-form">
+            <Input TItem="string" Label="Email" Type="email" Placeholder="name@example.com" />
+            <Group>
+                <a class="forgot-password" href="#">Forgot password?</a>
+                <Input TItem="string" Label="Password" Type="password" Placeholder="••••••••••" />
+            </Group>
+            <Button Text="Sign in" Class="sign-in-button" OnClick="HandleLogin" />
+            <div class="continue-with">
+                <span class="muted-color">OR CONTINUE WITH</span>
+            </div>
+            <div class="sign-in-others">
+                <Button Type="ButtonType.Outline" Class="sign-in-button" Width="100%" OnClick="HandleGitHubLogin">
+                    <Icon Name="github" Type="IconType.Lucide" Size="16px" /> GitHub
+                </Button>
+                <Button Type="ButtonType.Outline" Class="sign-in-button" Width="100%" OnClick="HandleGoogleLogin">
+                    <Icon Name="mail" Type="IconType.Lucide" Size="16px" /> Google
+                </Button>
+            </div>
         </div>
-    </div>
-    <small class="ta-center muted-color">Don't have an account? <a href="#">Sign up</a></small>
-    <small class="ta-center muted-color">By signing in, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></small>
-</div>
+    </CardContent>
+    <CardFooter>
+        <div class="login-footer">
+            <small class="ta-center muted-color">Don't have an account? <a href="#">Sign up</a></small>
+            <small class="ta-center muted-color">By signing in, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></small>
+        </div>
+    </CardFooter>
+</Card>
 
 @code
 {
-    private void HandleLogin(){ }
+    private void HandleLogin() { }
     private void HandleGitHubLogin() { }
     private void HandleGoogleLogin() { }
 }
