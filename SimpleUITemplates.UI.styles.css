@@ -1,0 +1,89 @@
+@import '_content/Sysinfocus.AspNetCore.Components.AIChat/Sysinfocus.AspNetCore.Components.AIChat.bundle.scp.css';
+@import '_content/Sysinfocus.AspNetCore.Components/Sysinfocus.AspNetCore.Components.bundle.scp.css';
+
+/* /Contributors/RahulHadgal/LoginComponent.razor.rz.scp.css */
+.login-container[b-6hqts6r144] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 420px;
+    border: 1px solid var(--primary-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+    .login-container a[b-6hqts6r144] {
+        text-decoration: none;
+        color: var(--primary-fg);
+    }
+    .login-container a:hover[b-6hqts6r144] {
+        text-decoration: underline;        
+    }
+
+.login-welcome[b-6hqts6r144] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;    
+}
+
+.login-form[b-6hqts6r144] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;          
+}
+
+.forgot-password[b-6hqts6r144] {
+    position: absolute;
+    margin-top: -3rem;
+    right: 0;
+    font-size: 14px;
+    font-weight: normal !important;
+}
+
+[b-6hqts6r144] .sbc-button {
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
+.sign-in-others[b-6hqts6r144] {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;    
+}
+
+[b-6hqts6r144] .sbc-icon {
+    height: 1rem;
+    margin-right: 0.25rem;
+}
+
+.continue-with[b-6hqts6r144] {
+    width: 100%;
+    text-align: center;
+    font-size: 0.75rem;
+    position: relative;
+}
+
+    .continue-with[b-6hqts6r144]::before,
+    .continue-with[b-6hqts6r144]::after {
+        position: absolute;
+        content: "";
+        left: 0;
+        width: 32%;
+        border-top: 1px solid var(--primary-border);
+        top: 0.5rem;
+    }
+
+    .continue-with[b-6hqts6r144]::after {
+        left: unset;
+        right: 0;
+    }
+
+    .continue-with span[b-6hqts6r144] {
+        display: block;
+        z-index: 1;
+    }
