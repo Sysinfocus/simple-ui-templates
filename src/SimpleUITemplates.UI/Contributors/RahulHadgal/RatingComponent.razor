@@ -1,0 +1,7 @@
+﻿<div class="sbc-rating-component" @onmouseout="@ClearRating" style="display: flex; gap: @Spacing">
+    <i @onmouseover="@(() => SetColor(1))"><Icon Name="@Icon" Color="@GetColor(1)" Size="@Size" OnClick="HandleRating" /></i>
+    <i @onmouseover="@(() => SetColor(2))"><Icon Name="@Icon" Color="@GetColor(2)" Size="@Size" OnClick="HandleRating" /></i>
+    <i @onmouseover="@(() => SetColor(3))"><Icon Name="@Icon" Color="@GetColor(3)" Size="@Size" OnClick="HandleRating" /></i>
+    <i @onmouseover="@(() => SetColor(4))"><Icon Name="@Icon" Color="@GetColor(4)" Size="@Size" OnClick="HandleRating" /></i>
+    <i @onmouseover="@(() => SetColor(5))"><Icon Name="@Icon" Color="@GetColor(5)" Size="@Size" OnClick="HandleRating" /></i>
+</div>
