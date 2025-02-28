@@ -24,10 +24,18 @@ jobs:
       - name: Add .nojekyll file
         run: touch release/wwwroot/.nojekyll
 
-      - name: Commit wwwroot to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          BRANCH: gh-pages
-          FOLDER: release/wwwroot
+          branch: gh-pages
+          folder: release/wwwroot  # Change this if your build folder is different
+          target_branch: gh-pages
+          base-url: '/simple-ui-templates/'  # This will adjust the base href dynamically
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically provides this token
+
+      # - name: Commit wwwroot to GitHub Pages
+      #   uses: JamesIves/github-pages-deploy-action@3.7.1
+      #   with:
+      #     BRANCH: gh-pages
+      #     FOLDER: release/wwwroot
