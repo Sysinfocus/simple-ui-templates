@@ -17,9 +17,9 @@
     <div class="flex-col jcc aic w100" style="position: relative">
         @if (selectedComponent is not null)
         {
-            <Separator />
+            <Separator Class="mb1" />
             <DynamicComponent Type="@selectedComponent.ComponentType" />
-            <Separator />
+            <Separator Class="mt1" />
             <div class="flex-col jcc aic g4">
                 <b>@selectedComponent.ComponentName</b>
                 <small class="muted-color">by <b>@selectedComponent.Contributor</b></small>
