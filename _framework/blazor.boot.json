@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "SimpleUITemplates.UI",
   "resources": {
-    "hash": "sha256-h1RTBcl4Uiv5Akss7F+uPCJRhM0wI81+GNnch3qN8ts=",
+    "hash": "sha256-pz9v8cTx5FEaBEaaiG5XAFvgTJZLL9CvHm33yFWvRfQ=",
     "fingerprinting": {
       "Markdig.Signed.tbwjkvwy6o.wasm": "Markdig.Signed.wasm",
       "Microsoft.AspNetCore.Components.hk93rvjk4n.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -18,7 +18,7 @@
       "Microsoft.Extensions.Primitives.4dxofymb0o.wasm": "Microsoft.Extensions.Primitives.wasm",
       "Microsoft.JSInterop.uu8izyvyxp.wasm": "Microsoft.JSInterop.wasm",
       "Microsoft.JSInterop.WebAssembly.p386u0jty9.wasm": "Microsoft.JSInterop.WebAssembly.wasm",
-      "SimpleUITemplates.UI.joaw34m9x2.wasm": "SimpleUITemplates.UI.wasm",
+      "SimpleUITemplates.UI.k7lcbu7njn.wasm": "SimpleUITemplates.UI.wasm",
       "Sysinfocus.AspNetCore.Components.AIChat.im4hc7111u.wasm": "Sysinfocus.AspNetCore.Components.AIChat.wasm",
       "Sysinfocus.AspNetCore.Components.rd9tp2vmac.wasm": "Sysinfocus.AspNetCore.Components.wasm",
       "System.Collections.Concurrent.7vmsjdut16.wasm": "System.Collections.Concurrent.wasm",
@@ -39,7 +39,7 @@
       "System.Net.Http.k0786noui9.wasm": "System.Net.Http.wasm",
       "System.Net.Primitives.3uow9zd1kc.wasm": "System.Net.Primitives.wasm",
       "System.ObjectModel.ajd66ov4wm.wasm": "System.ObjectModel.wasm",
-      "System.Private.CoreLib.629j7r5tas.wasm": "System.Private.CoreLib.wasm",
+      "System.Private.CoreLib.kdrasb70v9.wasm": "System.Private.CoreLib.wasm",
       "System.Private.Uri.91f67353un.wasm": "System.Private.Uri.wasm",
       "System.Runtime.InteropServices.JavaScript.f4ln4hfftw.wasm": "System.Runtime.InteropServices.JavaScript.wasm",
       "System.Runtime.InteropServices.ebl1t4cqsb.wasm": "System.Runtime.InteropServices.wasm",
@@ -72,7 +72,7 @@
       "icudt_no_CJK.lfu7j35m59.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "coreAssembly": {
-      "System.Private.CoreLib.629j7r5tas.wasm": "sha256-nvdiUhPWIQhW11J5073DBrrcvJnqPRsR2WNId6qv9c8=",
+      "System.Private.CoreLib.kdrasb70v9.wasm": "sha256-6D7p3gjYOXHsR6P5tY0s4WdL3pHQjSzqLFakSTxrgVA=",
       "System.Runtime.InteropServices.JavaScript.f4ln4hfftw.wasm": "sha256-r+LQmgoVdHgFKWJvUNAR7HQZAtSw+xvBIQ6siSPsBNM="
     },
     "assembly": {
@@ -91,7 +91,7 @@
       "Microsoft.Extensions.Primitives.4dxofymb0o.wasm": "sha256-GOr7jc/eCieZrQYoXRn79eLSsesIfFB55wQZIVTSNIY=",
       "Microsoft.JSInterop.uu8izyvyxp.wasm": "sha256-qsd7mmvxSN+titwo7yemRryk0nqW7vfS1mopEm2vjoc=",
       "Microsoft.JSInterop.WebAssembly.p386u0jty9.wasm": "sha256-hbzWuXrlepIqY/y+nQ2ZAFer2/njy1dc+Y4LUaAaL5E=",
-      "SimpleUITemplates.UI.joaw34m9x2.wasm": "sha256-7e5sMxIfj5vSMoIBuLfCmZ45WgQmo9ODk+TdQqh1aEA=",
+      "SimpleUITemplates.UI.k7lcbu7njn.wasm": "sha256-YEnSXhrC96Nsc1LxgMOTId//cVMDsnmTj8bH+/2/VJ0=",
       "Sysinfocus.AspNetCore.Components.AIChat.im4hc7111u.wasm": "sha256-VnY/XrHtLCmtG644j1ovhqXGxUvcfQSrabIPe0uIk4s=",
       "Sysinfocus.AspNetCore.Components.rd9tp2vmac.wasm": "sha256-QbqOUN4hrliCRZcIzE4CtxNF8m6As3qjXdWPP4jt1jw=",
       "System.Collections.Concurrent.7vmsjdut16.wasm": "sha256-PTawVIN+EkusKGMqvlLdWU1EdFohXOrXeR7EQJ6lIFo=",
