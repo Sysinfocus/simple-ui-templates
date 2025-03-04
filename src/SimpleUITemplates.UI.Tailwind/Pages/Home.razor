@@ -1,0 +1,82 @@
+﻿@page "/"
+
+<PageTitle>Sysinfocus simple/ui templates</PageTitle>
+
+<div class="flex-col">
+    <div class="flex">
+        <Label Text="Component" />
+        <Select Items="@userComponents"
+                TItem="UserComponent"
+                Display="x => x.ComponentName"
+                SelectedItem="@selectedComponent"
+                OnItemSelect="x => selectedComponent = x"
+                Placeholder="Choose component ..."
+                Width="250px" />
+    </div>
+
+    <div class="flex-col justify-center items-center w-full" style="position: relative">
+        @if (selectedComponent is not null)
+        {
+            <Separator Class="mb1" />
+            <DynamicComponent Type="@selectedComponent.ComponentType" />
+            <Separator Class="mt1" />
+            <div class="flex-col justify-center items-center gap-1">
+                <b>@selectedComponent.ComponentName</b>
+                <small class="muted-color">by <b>@selectedComponent.Contributor</b></small>
+            </div>
+            <a href="@(githubUrl)/@(selectedComponent.Contributor)/@(selectedComponent.ComponentName).razor" target="_blank">Get Code</a>
+        }
+        else
+        {
+            <p class="muted">Click on the Component to load.</p>
+        }
+    </div>
+</div>
+
+@code
+{
+    private const string githubUrl = @"https://github.com/Sysinfocus/simple-ui-templates/blob/main/src/SimpleUITemplates.UI/Contributors";
+    private UserComponent? selectedComponent;
+    private bool showMenu, isDesktop;
+    private List<UserComponent>? userComponents;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        LoadComponentsDynamically();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (!firstRender) isDesktop = await browserExtensions.IsDesktop();
+    }
+
+    private void LoadComponentsDynamically()
+    {
+        var components = typeof(Program).Assembly.GetTypes()
+            .Where(c => c.FullName?.Contains("Contributors") == true && c.DeclaringType is null);
+
+        userComponents ??= [];
+        foreach (var component in components)
+        {
+            var parts = component.FullName?.Split('.');
+            if (parts?.Length > 3)
+            {
+                var contributor = parts[parts.Length - 2];
+                var name = parts[parts.Length - 1];
+                userComponents.Add(new(contributor, name, component));
+            }
+        }
+
+        userComponents = userComponents.OrderBy(a => a.Contributor).ThenBy(a => a.ComponentName).ToList();
+    }
+
+    private void LoadComponent(UserComponent userComponent)
+    {
+        selectedComponent = userComponent;
+        showMenu = isDesktop;
+    }
+
+    private record UserComponent(string Contributor, string ComponentName, Type ComponentType);
+}

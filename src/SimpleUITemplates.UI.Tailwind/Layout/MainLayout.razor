@@ -1,0 +1,32 @@
+
+@inherits LayoutComponentBase
+
+<div class="container mx-auto p-4 max-w-[1400px]" @onclick="initialization.HandleMainLayoutClickEvent">
+    <div class="w-full flex justify-between mb-8 items-start">
+        <div class="flex-col gap-2">
+            <h2>UI Templates</h2>
+            <small class="muted">Find your favorite UI templates built using Sysinfocus simple/ui component library.</small>
+        </div>
+        <div class="flex">
+            <Icon Name="@GetIcon()" OnClick="@ToggleTheme" />
+        </div>
+    </div>
+
+    <div class="w-full flex-col">
+        @Body
+    </div>
+</div>
+
+@code
+{    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await initialization.InitializeTheme();
+        }        
+    }
+
+    private string GetIcon() => initialization.CurrentTheme == "light" ? "dark_mode" : "light_mode";
+    private async Task ToggleTheme() => await initialization.ToggleTheme();
+}

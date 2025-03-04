@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleUITemplates.UI", "SimpleUITemplates.UI\SimpleUITemplates.UI.csproj", "{964D7900-FB09-4F88-A1E9-AA21E4C16373}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleUITemplates.UI.Tailwind", "SimpleUITemplates.UI.Tailwind\SimpleUITemplates.UI.Tailwind.csproj", "{777ECD5F-C9B3-485C-90D5-83C5D38D436E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{964D7900-FB09-4F88-A1E9-AA21E4C16373}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{964D7900-FB09-4F88-A1E9-AA21E4C16373}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{964D7900-FB09-4F88-A1E9-AA21E4C16373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{777ECD5F-C9B3-485C-90D5-83C5D38D436E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777ECD5F-C9B3-485C-90D5-83C5D38D436E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777ECD5F-C9B3-485C-90D5-83C5D38D436E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777ECD5F-C9B3-485C-90D5-83C5D38D436E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
