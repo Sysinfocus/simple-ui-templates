@@ -6,12 +6,12 @@
     <div class="flex">
         <Label Text="Component" />
         <Select Items="@userComponents"
-                TItem="UserComponent"
-                Display="x => x.ComponentName"
-                SelectedItem="@selectedComponent"
-                OnItemSelect="x => selectedComponent = x"
-                Placeholder="Choose component ..."
-                Width="250px" />
+            TItem="UserComponent"
+            Display="x => x.Display"
+            SelectedItem="@selectedComponent"
+            OnItemSelect="x => selectedComponent = x"
+            Placeholder="Choose component ..."
+            ListWidth="350px" />
     </div>
 
     <div class="flex-col jcc aic w100" style="position: relative">
@@ -78,5 +78,8 @@
         showMenu = isDesktop;
     }
 
-    private record UserComponent(string Contributor, string ComponentName, Type ComponentType);
+    private record UserComponent(string Contributor, string ComponentName, Type ComponentType)
+    {
+        public string Display => $"{ComponentName} by {Contributor}";
+    };
 }

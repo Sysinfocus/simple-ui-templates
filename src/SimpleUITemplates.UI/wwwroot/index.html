@@ -17,20 +17,17 @@
     <link href="_content/Sysinfocus.AspNetCore.Components.AIChat/Sysinfocus.AspNetCore.Components.AIChat.bundle.scp.css" rel="stylesheet" />
     <link href="SimpleUITemplates.UI.styles.css" rel="stylesheet" />
     <style>
-        body { transition: none }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        body { transition: none } @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 
 <body>
     <script>
         const getPreferredScheme = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches ? "dark" : "light";
-        const alreadySet = localStorage.getItem("theme");
-        if (!alreadySet || alreadySet === null) {
-            localStorage.setItem("theme", getPreferredScheme);
-            document.querySelector("body").classList.add(getPreferredScheme);
-            document.querySelector("meta[name='theme-color']").setAttribute("content", (getPreferredScheme == "dark" ? "#09090b" : "#ffffff"));
-        }
+        const setTheme = localStorage.getItem("theme") ?? getPreferredScheme;
+        document.querySelector("body").classList.add(setTheme);
+        document.querySelector("meta[name='theme-color']").setAttribute("content", (setTheme == "dark" ? "#09090b" : "#ffffff"));
+        localStorage.setItem("theme", setTheme);
     </script>
     <div id="app">        
         <div style="width: 100dvw; height: 100dvh; display: flex; place-content: center; place-items: center">
