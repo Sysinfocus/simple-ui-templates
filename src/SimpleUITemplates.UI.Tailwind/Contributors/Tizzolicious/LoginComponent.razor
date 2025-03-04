@@ -13,16 +13,16 @@
                 <a class="absolute -mt-12 right-0 text-sm font-normal" href="#">Forgot password?</a>
                 <Input TItem="string" Label="Password" Type="password" Placeholder="••••••••••" />
             </Group>
-            <Button Text="Sign in" Class="sign-in-button" Width="100%"  OnClick="HandleLogin" />
+            <Button Text="Sign in" Class="justify-center" Width="100%"  OnClick="HandleLogin" />
             <div class="w-full relative text-center text-xs">
                 <span class="muted-color p-1">OR CONTINUE WITH</span>
                 <hr class="dark: border-gray-800 -mt-2"/>
             </div>
             <div class="flex justify-between gap-4">
-                <Button Type="ButtonType.Outline" Class="sign-in-button" Width="100%" OnClick="HandleGitHubLogin">
+                <Button Type="ButtonType.Outline" Class="justify-center" Width="100%" OnClick="HandleGitHubLogin">
                     <Icon Name="github" Type="IconType.Lucide" Size="16px" /> GitHub
                 </Button>
-                <Button Type="ButtonType.Outline" Class="sign-in-button" Width="100%" OnClick="HandleGoogleLogin">
+                <Button Type="ButtonType.Outline" Class="justify-center" Width="100%" OnClick="HandleGoogleLogin">
                     <Icon Name="mail" Type="IconType.Lucide" Size="16px" /> Google
                 </Button>
             </div>
