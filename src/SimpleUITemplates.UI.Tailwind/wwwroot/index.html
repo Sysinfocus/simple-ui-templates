@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Welcome to Sysinfocus simple/ui templates project</title>
+    <base href="/" />
+    <script>
+        if (location.href.indexOf("github") > 0) {
+            document.querySelector("base").href = "/simple-ui-templates/";
+        }
+    </script>
+    
+    <link href="_content/Sysinfocus.AspNetCore.Components/styles.css" rel="stylesheet" />
+    <link href="_content/Sysinfocus.AspNetCore.Components/Sysinfocus.AspNetCore.Components.bundle.scp.css" rel="stylesheet" />
+    <link href="_content/Sysinfocus.AspNetCore.Components.AIChat/Sysinfocus.AspNetCore.Components.AIChat.bundle.scp.css" rel="stylesheet" />
+    <link href="SimpleUITemplates.UI.styles.css" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="css/app.min.css" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+
+    <style>
+        body { transition: none }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+
+<body>
+    <script>
+        const getPreferredScheme = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches ? "dark" : "light";
+        const alreadySet = localStorage.getItem("theme");
+        if (!alreadySet || alreadySet === null) {
+            localStorage.setItem("theme", getPreferredScheme);
+            document.querySelector("body").classList.add(getPreferredScheme);
+            document.querySelector("meta[name='theme-color']").setAttribute("content", (getPreferredScheme == "dark" ? "#09090b" : "#ffffff"));
+        }
+    </script>
+    <div id="app">        
+        <div class="w-dvw h-dvh flex place-content-center place-items-center">
+            <div><span class="material-symbols-outlined" style="font-size: 48px; color: orange; animation: spin 1s linear infinite">progress_activity</span></div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

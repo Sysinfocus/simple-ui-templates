@@ -20,3 +20,6 @@ A public repo for UI templates built using Sysinfocus simple/ui razor component 
 - If everything is according to the requirements, it will be merged into the main repo.
 
 For more information about **Sysinfocus simple/ui** components and Blazor in general, visit [BLAZOR.ART](https://blazor.art)
+
+
+## Leveraging Tailwind CSS
