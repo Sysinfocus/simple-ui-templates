@@ -1,0 +1,105 @@
+
+
+<Menubar >
+    <MenubarItem Root="Music" OnMouseOver="x => showMenu = true">
+        <MenuGroup Items="@menuItemMain" Style="width: 210px" Show="@showMenu" OnSelect="HandleMenuSelection" />
+    </MenubarItem>
+    <MenubarItem Root="File" OnMouseOver="x => showMenu = true">
+        <MenuGroup Items="@menuItemsFile" Style="width: 210px" Show="@showMenu" OnSelect="HandleMenuSelection" />
+    </MenubarItem>
+    <MenubarItem Root="Edit" OnMouseOver="x => showMenu = true">
+        <MenuGroup Items="@edit" Style="width: fit-content" Show="@showMenu" OnSelect="HandleMenuSelection" />
+    </MenubarItem>
+    <MenubarItem Root="View" OnMouseOver="x => showMenu = true">
+        <MenuGroup Items="@view" Style="width: 250px" Show="@showMenu" OnSelect="HandleMenuSelection" />
+    </MenubarItem>
+    <MenubarItem Root="Profiles" OnMouseOver="x => showMenu = true">
+        <MenuGroup Items="@profiles" Style="width: fit-content" Show="@showMenu" OnSelect="HandleMenuSelection" />
+    </MenubarItem>
+</Menubar>
+
+
+@if (selected is not null)
+{
+    <p>You have clicked on <b>@selected.Text</b></p>
+}
+
+@code{
+
+    private List<MenuItemOption> menuItemMain = [];
+    private List<MenuItemOption> menuItemsFile = [];
+    private List<MenuItemOption> edit = [];
+    private List<MenuItemOption> view = [];
+    private List<MenuItemOption> profiles = [];
+
+    private MenuItemOption? selected;
+    private bool showMenu;
+
+    protected override void OnInitialized()
+    {
+        menuItemMain.AddRange([
+            new ("About Music"),
+            new (""),
+            new ("Preferences...", Shortcut: "⌘,"),
+            new (""),
+            new ("Hide Music...", Shortcut: "⌘H"),
+            new ("Hide Others...", Shortcut: "⇧⌘"),
+            new ("Quit Music", Shortcut: "⌘Q"),
+        ]);
+        
+
+        menuItemsFile.AddRange([
+            new ("New"),
+            new ("Open Stream URL...", Shortcut: "⌘U"),
+            new ("Close Window", Shortcut: "⌘W"),
+            new (""),
+            new ("Library"),
+            new ("Import...", Shortcut: "⌘U"),
+            new ("Burn Playlist to Disc...") { Disabled=true },
+            new (""),
+            new ("Show In Finder", Shortcut: "⇧⌘R"),
+            new ("Convert"),
+            new (""),
+            new ("Page Setup..."),
+            new ("Print...", Shortcut: "⌘P") { Disabled=true },
+        ]);
+
+        
+
+
+
+        edit.Add(new MenuItemOption("Undo", Shortcut: "⌘Z"));
+        edit.Add(new MenuItemOption("Redo", Shortcut: "⌘Z"));
+        edit.Add(new(""));
+        edit.Add(new MenuItemOption("Find"));
+        edit.Add(new(""));
+        edit.Add(new MenuItemOption("Cut"));
+        edit.Add(new MenuItemOption("Copy"));
+        edit.Add(new MenuItemOption("Paste"));
+
+        view.Add(new MenuItemOption("Always Show Bookmarks Bar") { MenuType = MenuType.Checkbox });
+        view.Add(new MenuItemOption("Always Show Full URLs") { MenuType = MenuType.Checkbox, Checked = true });
+        view.Add(new(""));
+        view.Add(new MenuItemOption("Reload", Shortcut: "⌘R") { MenuType = MenuType.Checkbox, ShowCheckmark = false });
+        view.Add(new MenuItemOption("Force Reload", Shortcut: "⌘R") { MenuType = MenuType.Checkbox, ShowCheckmark = false, Disabled = true });
+        view.Add(new(""));
+        view.Add(new MenuItemOption("Toggle Fullscreen") { MenuType = MenuType.Checkbox, ShowCheckmark = false });
+        view.Add(new(""));
+        view.Add(new MenuItemOption("Hide Sidebar") { MenuType = MenuType.Checkbox, ShowCheckmark = false });
+
+        profiles.Add(new MenuItemOption("Andy") { MenuType = MenuType.Radio, Value = "1", RadioGroup = "Profiles" });
+        profiles.Add(new MenuItemOption("Benoit") { MenuType = MenuType.Radio, Value = "2", RadioGroup = "Profiles", Checked = true });
+        profiles.Add(new MenuItemOption("Luis") { MenuType = MenuType.Radio, Value = "3", RadioGroup = "Profiles" });
+        profiles.Add(new(""));
+        profiles.Add(new MenuItemOption("Edit...") { MenuType = MenuType.Checkbox, ShowCheckmark = false });
+        profiles.Add(new(""));
+        profiles.Add(new MenuItemOption("Add Profile...") { MenuType = MenuType.Checkbox, ShowCheckmark = false });
+    }
+
+    private async Task HandleMenuSelection(MenuItemOption menu)
+    {
+        selected = menu;        
+        await browserExtensions.EvalVoid("document.activeElement.parentNode.click()");
+        showMenu = false;
+    }
+}

@@ -1,0 +1,114 @@
+@using SimpleUITemplates.UI.Tailwind.Contributors.Peakflames.MusicComponents;
+
+<div class="hidden md:block">
+    <Menu />
+    <div class="border-t border-primary">
+        <div class="bg-background">
+            <div class="grid lg:grid-cols-5">
+
+                <Sidebar class="hidden lg:block" />
+
+                @{
+                    string[] tabs = ["Music", "Podcasts", "Live"];
+                }
+
+                <div class="col-span-3 lg:col-span-4 lg:border-l border-primary">
+                    <div class="h-full px-4 py-6 lg:px-8">
+                        <Tabs Items="@tabs" ActiveItem="0" class="h-full space-y-6" >
+
+                            <TabItem Item="0">
+                                <div class="flex items-center justify-between">
+                                    <div class="space-y-1">
+                                        <h2 class="text-2xl font-semibold tracking-tight">
+                                            Listen Now
+                                        </h2>
+                                        <p class="text-sm text-muted-foreground">
+                                            Top picks for you. Updated daily.
+                                        </p>
+                                    </div>
+                                </div>
+                                <Separator class="my-4" />
+                                <div class="relative">
+                                    <ScrollArea Horizontal Width="100%" Height="100%">
+                                        <div class="flex space-x-4 pb-4">
+                                            @foreach (var album in DataStore.ListenNowAlbums)
+                                            {
+                                                <div class="space-y-3 w-[250px]">
+                                                    <span style="-webkit-touch-callout:none">
+                                                        <div class="overflow-hidden rounded-md">
+                                                            <img alt="@album.Name" loading="lazy" width="250" height="330" decoding="async" data-nimg="1"
+                                                                class="h-auto w-auto object-cover transition-all hover:scale-105 aspect-[3/4]" style="color:transparent" 
+                                                                src="@album.Cover">
+                                                        </div>
+                                                    </span>
+
+                                                    <div class="space-y-1 text-sm">
+                                                        <div class="font-medium leading-none">@album.Name</div>
+                                                        <p class="text-xs muted">@album.Artist</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                            
+                                        </div>
+                                    </ScrollArea>
+                                </div>
+                                <div class="mt-6 space-y-1">
+                                    <h2 class="text-2xl font-semibold tracking-tight">
+                                        Made for You
+                                    </h2>
+                                    <p class="text-sm muted">
+                                        Your personal playlists. Updated daily.
+                                    </p>
+                                </div>
+                                <Separator class="my-4" />
+                                <div class="relative">
+                                    <ScrollArea Horizontal Width="100%" Height="100%">
+                                        <div class="flex space-x-4 pb-4">
+                                            @foreach (var album in DataStore.MadeForYouAlbums)
+                                            {
+                                                <div class="space-y-3 w-[150px]">
+                                                    <span style="-webkit-touch-callout:none">
+                                                        <div class="overflow-hidden rounded-md">
+                                                            <img alt="@album.Name" loading="lazy" width="150" height="150" decoding="async" data-nimg="1"
+                                                                class="h-auto w-auto object-cover transition-all hover:scale-105 aspect-square" style="color:transparent" 
+                                                                src="@album.Cover">
+                                                        </div>
+                                                    </span>
+
+                                                    <div class="space-y-1 text-sm">
+                                                        <div class="font-medium leading-none">@album.Name</div>
+                                                        <p class="text-xs muted">@album.Artist</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </ScrollArea>
+                                </div>
+                            </TabItem>
+
+                            <TabItem Item="1">
+                                <div>Stuff 1</div>
+
+                            </TabItem>
+
+                            <TabItem Item="2">
+                                <div>Stuff 2</div>
+                            </TabItem>
+                            
+                        </Tabs>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

@@ -15,6 +15,10 @@ a {
     @apply text-black dark:text-white hover:underline;
 }
 
+.border-primary {
+    @apply border-[#d4d4d5] dark:border-[#25252b];
+}
+
 
 /* Microsoft Blazor  ------------------------------------------------------------------------------------------------------------------ */
 .valid.modified:not([type=checkbox]) {
