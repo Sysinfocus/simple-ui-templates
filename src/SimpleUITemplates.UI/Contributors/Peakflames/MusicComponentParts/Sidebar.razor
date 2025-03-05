@@ -1,0 +1,40 @@
+﻿<style>
+    .sidebar { display: flex; flex-direction: column; width: clamp(225px, 100%, 350px); min-height: 900px; gap: 0.25rem; padding: 0.75rem;}
+    .sidebar h4 { margin-left: 1rem; margin-top: 1rem; margin-bottom: 0.5rem; font-weight: 600; }
+    .sidebar h4:not(:first-child) { margin-top: 2rem; }
+    .sidebar-menu-items { display: flex; flex-direction: column; gap: 0.25rem; width: 100%; max-height: 275px; overflow-y: auto; }
+    ::-webkit-scrollbar { width: 8px; height: 8px }
+    .sidebar-menu-items:hover::-webkit-scrollbar-thumb { border-radius: 4px; background-color: var(--btn-secondary-bg) }
+</style>
+
+<div class="sidebar">
+    <h4>Discover</h4>
+    <div class="sidebar-menu-items">
+        <Button Icon="play_circle" Text="Listen Now" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="grid_view" Text="Browser" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="sensors" Text="Radio" Type="ButtonType.Ghost" Width="auto" />
+    </div>
+    <h4>Library</h4>
+    <div class="sidebar-menu-items">
+        <Button Icon="queue_music" Text="Playlists" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="music_note" Text="Songs" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="person" Text="Made for You" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="mic" Text="Artists" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="newsstand" Text="Albums" Type="ButtonType.Ghost" Width="auto" />
+    </div>
+    <h4>Playlists</h4>
+    <div class="sidebar-menu-items">
+        <Button Icon="queue_music" Text="Recently Added" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Recently Played" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Top Songs" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Top Albums" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Top Artists" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Logic Discography" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Bedtime Beats" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Feeling Happy" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="I miss Y2K Pop" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Runtober" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Mellow Days" Type="ButtonType.Ghost" Width="auto" />
+        <Button Icon="queue_music" Text="Eminem Essentials" Type="ButtonType.Ghost" Width="auto" />
+    </div>
+</div>

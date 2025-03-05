@@ -1,0 +1,224 @@
+﻿@implements IDisposable
+
+<style>
+    .music-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.5rem 2rem;
+    border-left: 1px solid var(--primary-border);
+    overflow: auto;
+    }
+
+    .sbc-tabs {
+    gap: 0rem !important;
+    margin-top: -3.25rem;
+    margin-bottom: 0.5rem;
+    width: fit-content !important
+    }
+
+    .sbc-tabs > button {
+    font-weight: normal !important;
+    padding-inline: 0.75rem !important;
+    border: none !important;
+    }
+
+    .sbc-tabs button:last-child {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+    }
+
+    .music-content-albums {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    }
+
+    .music-content-albums section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    }
+
+    .music-content-albums section figure {
+    display: block;
+    overflow: hidden;
+    width: 250px;
+    height: 335px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    }
+
+    .music-content-albums section figure img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 150ms ease-in-out
+    }
+
+    .music-content-albums section figure img:hover {
+    transform: scale(1.05)
+    }
+
+
+    section.smaller figure {
+    width: 160px;
+    height: 235px;
+    }
+
+    .music-content-albums section div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 14.5px;
+    }
+
+    .music-content-albums section small {
+    opacity: 0.5
+    }
+
+    ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    }
+
+    .music-content-albums:hover::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: var(--btn-secondary-bg)
+    }
+</style>
+
+<div class="music-content">
+    <Button Icon="add_circle" Text="Add music" Style="align-self: flex-end" />
+    <Tabs Items="@tabItems" ActiveItem="0">
+        <TabItem Item="0">
+            <div class="flex-col g8 mtb1">
+                <h3>Listen Now</h3>
+                <p class="muted">Top picks for you. Updated daily.</p>
+            </div>
+            <Separator />
+            <div class="music-content-albums" style="height: 405px">
+                @foreach (var album in albums)
+                {
+                    <section @oncontextmenu="HandleContextMenu" @oncontextmenu:preventDefault="true">
+                        <figure>
+                            <img src="@album.ImageUrl" />
+                        </figure>
+                        <div>
+                            <p>@album.AlbumName</p>
+                            <small>@album.ArtistName</small>
+                        </div>
+                    </section>
+                }
+            </div>
+
+            <div class="flex-col g8 mtb1">
+                <h3>Made for You</h3>
+                <p class="muted">Your personal playlists. Updated daily.</p>
+            </div>
+            <Separator />
+            <div class="music-content-albums" style="height: 305px">
+                @foreach (var album in moreAlbums)
+                {                    
+                    <section class="smaller" @oncontextmenu="HandleContextMenu" @oncontextmenu:preventDefault="true">
+                        <figure>
+                            <img src="@album.ImageUrl" />
+                        </figure>
+                        <div>
+                            <p>@album.AlbumName</p>
+                            <small>@album.ArtistName</small>
+                        </div>
+                    </section>                    
+                }
+            </div>
+        </TabItem>
+        <TabItem Item="1">
+            <div class="flex-col g8 mtb1">
+                <h3>New Episodes</h3>
+                <p class="muted">Your favorite podcasts. Updated daily.</p>
+            </div>
+            <Separator />
+            <div class="flex-col jcc aic g8 mt1" style="border: 1px dashed var(--primary-border); border-radius: 0.5rem; height: 450px">
+                <Icon Name="podcasts" Size="48px" />
+                <h4>No episodes added</h4>
+                <p class="muted">You have not added any podcasts. Add one below.</p>
+                <Button Text="Add Podcast" />
+            </div>            
+        </TabItem>
+    </Tabs>    
+</div>
+
+<MenuGroup Items="@menu" OnSelect="UpdateMenu" Style="@style" Show="@showMenu" />
+
+@code
+{
+    private string[] tabItems = ["Music", "Podcasts", "Live"];
+    private MenuItemOption? selectedMenu;
+    private bool showMenu;
+    private string style = "";
+    private List<MenuItemOption> menu = [
+        new("Add to Library"),
+        new("Add to Playlist"),
+        new (""),
+        new("Play Next"),
+        new("Play Later"),
+        new("Create Station"),
+        new (""),
+        new("Like"),
+        new("Share")
+    ];
+
+    private List<Album> albums = [
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1611348586804-61bf6c080437%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","React Rendezvous","Ethan Byte"),
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1468817814611-b7edf94b5d60%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","Async Awakenings","Nina Netcode"),
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1528143358888-6d3c7f67bd5d%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","The Art of Reusability","Lena Logic"),
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1490300472339-79e4adc6be4a%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","Stateful Symphony","Beth Binary"),
+    ];
+
+    private List<Album> moreAlbums = [
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1615247001958-f4bc92fa6a4a%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","Thinking Components","Lena Logic"),
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1513745405825-efaf9a49315f%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","Functional Fury","Beth Binary"),
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1614113489855-66422ad300a4%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","React Rendezvous","Ethan Byte"),
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1446185250204-f94591f7d702%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","Stateful Symphony","Beth Binary"),
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1468817814611-b7edf94b5d60%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","Async Awakenings","Nina Netcode"),
+        new("https://ui.shadcn.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1490300472339-79e4adc6be4a%3Fw%3D300%26dpr%3D2%26q%3D80&w=256&q=75","The Art of Reusability","Lena Logic"),
+    ];
+
+    protected override void OnInitialized()
+    {
+        stateManager.StateChanged += GetStateChanged;
+    }
+
+    private void UpdateMenu(MenuItemOption menu)
+    {
+        selectedMenu = menu;
+        showMenu = false;
+    }
+
+    private void HandleContextMenu(MouseEventArgs args)
+    {        
+        style = $"min-width: unset; width: 175px; left: {args.ClientX}px; top: {args.ClientY}px";
+        showMenu = true;
+    }
+
+    private void GetStateChanged(object sender, object? value)
+    {
+        if (value?.ToString() == "mouseup" && showMenu)
+        {
+            showMenu = false;
+            StateHasChanged();
+        }
+    }
+
+    void IDisposable.Dispose()
+    {
+        stateManager.StateChanged -= GetStateChanged;
+    }
+
+    private record Album(string ImageUrl, string AlbumName, string ArtistName);
+}
