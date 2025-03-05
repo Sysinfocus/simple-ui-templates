@@ -1,0 +1,1 @@
+global using SimpleUITemplates.UI.Tailwind.Components;
