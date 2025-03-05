@@ -55,7 +55,8 @@
     private void LoadComponentsDynamically()
     {
         var components = typeof(Program).Assembly.GetTypes()
-            .Where(c => c.FullName?.Contains("Contributors") == true && c.DeclaringType is null);
+            .Where(c => c.FullName?.Contains("Contributors") == true && c.DeclaringType is null &&
+                c.FullName?.Contains("ComponentParts") == false);
 
         userComponents ??= [];
         foreach (var component in components)

@@ -1,0 +1,32 @@
+﻿@font-face {
+    font-family: 'Geist Sans';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 600;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-600-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-600-normal.woff) format('woff');
+}
+
+.music-component {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 100dvh;
+    border: 1px solid var(--primary-border);
+    border-radius: 0.5rem;
+}
+
+.music-component-content {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.music-component-content:first-child {
+    width: 250px;    
+    flex: 1;
+}
+    .music-component-content:last-child {
+        flex: 1;
+        width: 100%
+    }

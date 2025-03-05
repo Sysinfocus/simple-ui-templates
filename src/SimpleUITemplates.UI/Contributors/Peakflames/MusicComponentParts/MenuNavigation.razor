@@ -1,0 +1,105 @@
+﻿<style>
+    .music-component-menu { border-bottom: 1px solid var(--primary-border); padding-left: 0.75rem }
+    .sbc-menubar { border: none !important }
+    .sbc-menubar-item { position: relative }
+    .sbc-menubar-item > .sbc-menu-group { position: absolute }
+    .sbc-menubar-item:first-child .sbc-menu-button:first-child { font-weight: bold }
+    .sbc-menuitem .menu_icon { font-size: 18px }
+</style>
+
+<div class="music-component-menu">
+    <Menubar>
+        <MenubarItem Root="Music" OnClick="ShowMenuOnClick" OnMouseOver="ShowMenu">
+            <MenuGroup Items="@music" Style="width: fit-content" Show="@showMenu" OnSelect="HandleMenuSelection" />
+        </MenubarItem>
+        <MenubarItem Root="File" OnClick="ShowMenuOnClick" OnMouseOver="ShowMenu">
+            <MenuGroup Items="@file" Style="width: 210px" Show="@showMenu" OnSelect="HandleMenuSelection" />
+        </MenubarItem>
+        <MenubarItem Root="Edit" OnClick="ShowMenuOnClick" OnMouseOver="ShowMenu">
+            <MenuGroup Items="@edit" Style="width: fit-content" Show="@showMenu" OnSelect="HandleMenuSelection" />
+        </MenubarItem>
+        <MenubarItem Root="View" OnClick="ShowMenuOnClick" OnMouseOver="ShowMenu">
+            <MenuGroup Items="@view" Style="width: 250px" Show="@showMenu" OnSelect="HandleMenuSelection" />
+        </MenubarItem>
+        <MenubarItem Root="Account" OnClick="ShowMenuOnClick" OnMouseOver="ShowMenu">
+            <MenuGroup Items="@account" Style="width: fit-content" Show="@showMenu" OnSelect="HandleMenuSelection" />
+        </MenubarItem>
+    </Menubar>
+</div>
+
+@code {
+
+    private List<MenuItemOption> music = [], file = [];
+    private List<MenuItemOption> edit = [];
+    private List<MenuItemOption> view = [];
+    private List<MenuItemOption> account = [];
+
+    private MenuItemOption? selected;
+    private bool showMenu;
+
+    protected override void OnInitialized()
+    {
+        music.Add(new MenuItemOption("About Music"));
+        music.Add(new(""));
+        music.Add(new MenuItemOption("Preferences...", Shortcut: "⌘,"));
+        music.Add(new(""));
+        music.Add(new MenuItemOption("Hide Music...", Shortcut: "⌘H"));
+        music.Add(new MenuItemOption("Hide Others...", Shortcut: "⇧⌘H"));
+        music.Add(new MenuItemOption("Quit Music", Shortcut: "⌘Q"));
+
+        file.Add(new MenuItemOption("New"));
+        file.Add(new MenuItemOption("Open Stream URL...", Shortcut: "⌘U"));
+        file.Add(new MenuItemOption("Close Window...", Shortcut: "⌘W"));
+        file.Add(new(""));
+        file.Add(new MenuItemOption("Library"));
+        file.Add(new MenuItemOption("Import...", Shortcut: "⌘O"));
+        file.Add(new MenuItemOption("Burn Playlist to Disc...") { Disabled = true });
+        file.Add(new(""));
+        file.Add(new MenuItemOption("Show in Finder", Shortcut: "⇧⌘R"));
+        file.Add(new MenuItemOption("Convert"));
+        file.Add(new(""));
+        file.Add(new MenuItemOption("Page Setup..."));
+        file.Add(new MenuItemOption("Print...", Shortcut: "⌘P"));
+
+        edit.Add(new MenuItemOption("Undo", Shortcut: "⌘Z"));
+        edit.Add(new MenuItemOption("Redo", Shortcut: "⇧⌘Z"));
+        edit.Add(new(""));
+        edit.Add(new MenuItemOption("Cut", Shortcut: "⌘X") { Disabled = true });
+        edit.Add(new MenuItemOption("Copy", Shortcut: "⌘C") { Disabled = true });
+        edit.Add(new MenuItemOption("Paste", Shortcut: "⌘V") { Disabled = true });
+        edit.Add(new(""));
+        edit.Add(new MenuItemOption("Select All", Shortcut: "⌘A"));
+        edit.Add(new MenuItemOption("Deselect All", Shortcut: "⇧⌘A") { Disabled = true });
+        edit.Add(new(""));
+        edit.Add(new MenuItemOption("Smart Dictation...", Icon: "mic"));
+        edit.Add(new MenuItemOption("Emoji & Symbols", Icon: "language"));
+
+        view.Add(new MenuItemOption("Show Playing Next") { MenuType = MenuType.Checkbox });
+        view.Add(new MenuItemOption("Show Lyrics") { MenuType = MenuType.Checkbox, Checked = true });
+        view.Add(new(""));
+        view.Add(new MenuItemOption("Show Status Bar") { MenuType = MenuType.Checkbox, ShowCheckmark = false, Disabled = true });
+        view.Add(new(""));
+        view.Add(new MenuItemOption("Hide Sidebar") { MenuType = MenuType.Checkbox, ShowCheckmark = false });
+        view.Add(new MenuItemOption("Enter Full Screen") { MenuType = MenuType.Checkbox, ShowCheckmark = false, Disabled = true });
+
+        account.Add(new MenuItemOption("Switch Account") { MenuType = MenuType.Checkbox, ShowCheckmark = false });
+        account.Add(new(""));
+        account.Add(new MenuItemOption("Andy") { MenuType = MenuType.Radio, Value = "1", RadioGroup = "Profiles" });
+        account.Add(new MenuItemOption("Benoit") { MenuType = MenuType.Radio, Value = "2", RadioGroup = "Profiles", Checked = true });
+        account.Add(new MenuItemOption("Luis") { MenuType = MenuType.Radio, Value = "3", RadioGroup = "Profiles" });
+        account.Add(new(""));
+        account.Add(new MenuItemOption("Manage Family...") { MenuType = MenuType.Checkbox, ShowCheckmark = false });
+        account.Add(new(""));
+        account.Add(new MenuItemOption("Add Account...") { MenuType = MenuType.Checkbox, ShowCheckmark = false });
+    }
+
+    private async Task HandleMenuSelection(MenuItemOption menu)
+    {
+        selected = menu;
+        await browserExtensions.EvalVoid("document.activeElement.parentNode.click()");
+        showMenu = false;
+    }
+
+    private void ShowMenuOnClick() => showMenu = !showMenu;    
+    private void ShowMenu() => showMenu = showMenu ? true : false;    
+}
