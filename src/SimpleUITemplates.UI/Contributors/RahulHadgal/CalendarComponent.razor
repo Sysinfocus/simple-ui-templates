@@ -1,0 +1,98 @@
+﻿@if (Items is null)
+{
+    <p class="muted">No calendar detail at the moment.</p>
+}
+else
+{
+    <style>
+        .calendar-details-component { width: min(350px,100%); display: flex; flex-direction: column; gap: 0 }
+        .sbc-date-picker-days > button { width: 40px !important; height: 40px !important }
+        .sbc-date-picker-days > button:disabled { opacity: 1 !important; border-radius: 100% }
+        .calendar-details { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; padding: 1rem; max-height: 200px; overflow-y: auto }
+        .calendar-detail { display: flex; flex-direction: row; gap: 1.5rem; align-items: center }
+        .calendar-detail-date { width: 42px; height: 42px; border-radius: 100%; border: 3px solid var(--date-bgcolor); overflow: hidden; font-size: 0.7rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center }
+        .calendar-detail-description { line-height: 1.25rem; font-size: 14px }
+        .calendar-detail-description p { color: inherit }
+        .calendar-detail-description span { font-weight: bold }
+    </style>
+
+    <div class="calendar-details-component">
+        <h4 class="large ta-center mb1">Calendar Details</h4>
+        <Calendar Date="@current" DateChanged="x => current = x" DisabledDates="@markDates"
+                  HideOtherMonthDates="true" HideNextYearIcon="true" HidePreviousYearIcon="true"
+                  Width="100%" OnPreviousMonth="HandlePrevious" OnNextMonth="HandleNext" />
+        <div class="calendar-details">
+            @foreach (var detail in Items.GroupBy(g => g.Name))
+            {
+                var detailItem = Items.FirstOrDefault(i => i.Name == detail.Key)!;
+                var detailItemLast = Items.LastOrDefault(i => i.Name == detail.Key)!;
+                if (detailItem.Date.Month == current?.Month && detailItem.Date.Year == current?.Year)
+                {
+                    <div class="calendar-detail" style="--date-bgcolor:@detailItem.Color">
+                        <div class="calendar-detail-date">@((MarkupString)detailItem.Date.ToString("MMM<br><b>d</b>"))</div>
+                        <div class="calendar-detail-description">
+                            <small>@detailItem.EventName</small>
+                            <p><span>@detailItem.Name</span> - @GetDateRange(detailItem.Date, detailItemLast.Date)</p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+
+@code
+{
+    [Parameter, EditorRequired] public CalendarDetailModel[]? Items { get; set; }
+    List<DateTime> markDates = [];
+    DateTime? current = DateTime.Now;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Items is null)
+        {
+            var date = DateTime.Now.Date;
+            Items = [
+                new("RAHUL", new(date.Year, date.Month, 16), "Component 'A' created.", "crimson"),
+                new("RAHUL", new(date.Year, date.Month, 17), "Component 'B' created.", "crimson"),
+                new("RAHUL", new(date.Year, date.Month, 18), "Component 'B' update.", "crimson"),
+                new("YOGESH", new(date.Year, date.Month, 27), "Component 'C' updated."),
+                new("YOGESH", new(date.Year, date.Month, 28), "Component 'D' deleted."),
+            ];
+        }
+        markDates = Items.Select(d => DateTime.Parse(d.Date.ToString())).ToList();
+        await browserExtensions.EvalVoid($@"function updateDates(color,dates) {{
+            const days = document.querySelectorAll('.sbc-date-picker-days > button');
+            days.forEach(d => {{ if (dates == d.textContent) d.style.border = `3px solid ${{color}}`; }});
+        }}");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            await browserExtensions.RemoveClass(".sbc-date-picker-days > button.today", "today");
+            var updates = Items?.Select(d => new { d.Color, d.Date }).ToList();
+            foreach (var update in updates ?? [])
+            {
+                if (current?.Date.Year == update.Date.Year && current?.Date.Month == update.Date.Month)
+                    await browserExtensions.EvalVoid($"updateDates('{update.Color}', '{update.Date.Day}')");
+                else
+                    await browserExtensions.EvalVoid($"updateDates('transparent', '{update.Date.Day}')");
+            }
+        }
+    }
+
+    private void HandlePrevious() => current = current?.AddMonths(-1);
+
+    private void HandleNext() => current = current?.AddMonths(1);
+
+    private string GetDateRange(DateOnly from, DateOnly upto)
+    {
+        if (from == upto) return from.ToString("MMMM d");
+        else if (from.Month == upto.Month) return $"{from:MMMM d} - {upto:dd}";
+        return $"{from:MMMM d}-{upto:MMMM d}";
+    }
+
+    public record CalendarDetailModel(string Name, DateOnly Date, string? EventName, string? Color = "seagreen");
+}
