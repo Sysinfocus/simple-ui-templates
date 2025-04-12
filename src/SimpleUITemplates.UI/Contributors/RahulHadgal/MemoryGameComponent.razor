@@ -1,0 +1,129 @@
+﻿<style>
+    .sbc-widget.active {        
+        transition: background-color 250ms ease-out;
+    }
+    .sbc-widget.inactive {
+        transition: background-color 250ms ease-in;
+    }
+</style>
+<div class="flex-col jcc aic" style="max-width: 320px; width: 100%">
+    <Card>
+        <CardHeader>
+            <div class="flex-col g0 jcc aic ta-center">
+                <h3 style="font-size: 1.5rem">Memory Game</h3>
+                <p class="muted mb1">Match the icons randomly available under different blocks.</p>
+                <p>Attempts to finish: <b>@wrongAttempts</b></p>
+            </div>
+        </CardHeader>
+        <CardContent>
+            <div class="flex g8 jcc aic wrap">
+                @foreach(var blocks in memoryBlocks)
+                {
+                    if (blocks.IsMatched || blocks.Show)
+                    {
+                        <Widget Width="80px" Height="80px" Background="@matchedColor" Class="active">
+                            <Icon Name="@blocks.Icon" Color="@blocks.Color" Size="40px" />
+                        </Widget>
+                    }
+                    else
+                    {
+                        <Widget Width="80px" Height="80px" Background="@notMatchedColor" Class="inactive"
+                            OnClick="@(async _ => await ShowBlock(blocks))" />
+                    }
+                }
+            </div>
+        </CardContent>
+        <CardFooter>
+            @if (memoryBlocks.Count(x => !x.IsMatched) == 0)
+            {
+                <div class="flex w100 jcc aic" style="padding: 1.5rem; padding-top: 0">
+                    <Button Text="Completed. Play again!" OnClick="HandlePlayAgain" />
+                </div>
+            }
+        </CardFooter>
+    </Card>
+</div>
+
+@code {
+    string notMatchedColor = "var(--btn-secondary-bg)", matchedColor = "#111111";
+    bool waitForMatch;
+    int wrongAttempts;
+    MemoryBlock? lastActiveBlock;
+    List<MemoryBlock> memoryBlocks = [];
+
+    MemoryBlock[] memoryBlockItems = [
+        new(1, "star", "cyan"),
+        new(1, "star", "cyan"),
+        new(2, "cloud", "blue"),
+        new(2, "cloud", "blue"),
+        new(3, "favorite", "red"),
+        new(3, "favorite", "red"),
+        new(4, "deceased", "lightgreen"),
+        new(4, "deceased", "lightgreen"),
+        new(5, "light_mode", "yellow"),
+        new(5, "light_mode", "yellow"),
+        new(6, "dark_mode", "magenta"),
+        new(6, "dark_mode", "magenta"),
+    ];
+
+    protected override void OnInitialized() => HandlePlayAgain();
+
+    public static int[] GenerateUniqueRandomNumbers()
+    {
+        var generatedNumbers = new HashSet<int>();
+        while (generatedNumbers.Count < 12)
+        {
+            int num = Random.Shared.Next(0, 12);
+            if (!generatedNumbers.Contains(num))
+                generatedNumbers.Add(num);
+        }
+        return generatedNumbers.ToArray();
+    }
+
+    private async Task ShowBlock(MemoryBlock block)
+    {
+        if (memoryBlocks.Count(a => a.Show && !a.IsMatched) > 1) return;
+        if (!waitForMatch || lastActiveBlock is not null) block.Show = true;
+        if (waitForMatch && lastActiveBlock is not null)
+        {
+            if (lastActiveBlock.Id == block.Id)
+            {
+                lastActiveBlock.IsMatched = true;
+                block.IsMatched = true;
+            }
+            else if (lastActiveBlock is not null)
+            {
+                await Task.Delay(1500);
+                wrongAttempts++;
+                lastActiveBlock.Show = false;
+                block.Show = false;
+            }
+            lastActiveBlock = null;
+            waitForMatch = false;
+            return;
+        }        
+        lastActiveBlock = block;
+        waitForMatch = true;        
+    }
+
+    private void HandlePlayAgain()
+    {
+        wrongAttempts = 0;
+        lastActiveBlock = null;
+        waitForMatch = false;
+        var numbers = GenerateUniqueRandomNumbers();
+        memoryBlocks = [];
+        foreach (var n in numbers)
+        {
+            memoryBlockItems[n].IsMatched = false;
+            memoryBlockItems[n].Show = false;
+            memoryBlocks.Add(memoryBlockItems[n]);
+        }
+    }
+
+    record MemoryBlock(int Id, string Icon, string Color)
+    {
+        public bool Show { get; set; }
+        public bool IsMatched { get; set; }
+    };
+}
