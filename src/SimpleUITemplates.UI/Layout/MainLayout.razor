@@ -6,7 +6,9 @@
             <h2>UI Templates</h2>
             <small class="muted">Find your favorite UI templates built using Sysinfocus simple/ui component library.</small>
         </div>
-        <div class="flex">
+        <div class="flex aic">
+            <Button Text="Goto Blazor.art"
+                OnClick="@(async () => await browserExtensions.Open("https://blazor.art"))" />
             <Icon Name="@GetIcon()" OnClick="@ToggleTheme" />
         </div>
     </div>
