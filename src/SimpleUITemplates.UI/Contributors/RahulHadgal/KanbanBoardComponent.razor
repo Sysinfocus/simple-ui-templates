@@ -1,21 +1,42 @@
 ﻿<style>
-    .item { display: flex;flex-direction: row;gap: 1rem;padding: 1rem;margin: 0.5rem;border-radius: 1rem;color: black }
-    .item h3 { display: flex; place-content: center; place-items: center; background-color: black; color: white; border-radius: 100%; font-weight: normal; width: 48px; height: 48px; }
-    .todo { background-image: linear-gradient(45deg,lightskyblue,blueviolet) }
-    .wip { background-image: linear-gradient(45deg,lightsalmon,gold) }
-    .done { background-image: linear-gradient(45deg,lightgreen,lightseagreen) }
-    .progress { display: block; min-height: 100px; height:fit-content }
-    .item-group{border-radius: 1rem; min-height: 100px}
+    .kanban-board { width:100%; min-height:75vh; height:100%; overflow: hidden }
+    .kanban-board .item { display: flex; flex-direction: row; gap: 1rem; padding: 1rem; margin: 0.5rem; border-radius: 1rem; color: black }
+    .kanban-board .item h3 { display: flex; place-content: center; place-items: center; background-color: black; color: white; border-radius: 100%; font-weight: normal; width: 48px; height: 48px; }
+    .kanban-board .progress { display: block;min-height: 100px;height: fit-content }
+    .kanban-board .item-group { border-radius: 1rem;min-height: 100px }
+    .kanban-board .backlog { background-image: linear-gradient(45deg,#eee,#ccc) }
+    .kanban-board .todo { background-image: linear-gradient(45deg,lightskyblue,royalblue) }
+    .kanban-board .wip { background-image: linear-gradient(45deg,lightsalmon,gold) }
+    .kanban-board .done { background-image: linear-gradient(45deg,lightgreen,lightseagreen) }
 </style>
 
-<Grid MinColWidth="300px" Style="width:100%; min-height:75vh; height:100%; overflow: hidden">
+<Grid MinColWidth="300px" Class="kanban-board">
+    <div class="progress">
+        <div class="flex-col g0 mb1">
+            <h3>Backlogs</h3>
+            <p class="muted">Tasks that are not considered yet.</p>
+        </div>
+        <Sortable Items="@BackLogItems" Group="kanban" Id="backlog" DragClass="item-drag" Sort Register
+                  OnChange="HandleChange" OnInsert="HandleInsert" OnDelete="HandleDelete" Class="item-group">
+            <SortableItemTemplate>
+                <div class="flex item backlog">
+                    <h3>@context.Id</h3>
+                    <div class="flex-col g4">
+                        <b>@context.Title</b>
+                        <small>@context.Description</small>
+                    </div>
+                </div>
+            </SortableItemTemplate>
+        </Sortable>
+    </div>
+
     <div class="progress">
         <div class="flex-col g0 mb1">
             <h3>ToDo</h3>
             <p class="muted">Tasks yet to be taken up.</p>
         </div>
         <Sortable Items="@ToDoItems" Group="kanban" Id="todo" DragClass="item-drag" Sort Register
-        OnChange="HandleChange" OnInsert="HandleInsert" OnDelete="HandleDelete" Class="item-group">
+                  OnChange="HandleChange" OnInsert="HandleInsert" OnDelete="HandleDelete" Class="item-group">
             <SortableItemTemplate>
                 <div class="flex item todo">
                     <h3>@context.Id</h3>
@@ -34,7 +55,7 @@
             <p class="muted">Tasks that are work-in-progress.</p>
         </div>
         <Sortable Items="@WiPItems" Group="kanban" Id="wip" DragClass="item-drag" Sort
-        OnChange="HandleChange" OnInsert="HandleInsert" OnDelete="HandleDelete" Class="item-group">
+                  OnChange="HandleChange" OnInsert="HandleInsert" OnDelete="HandleDelete" Class="item-group">
             <SortableItemTemplate>
                 <div class="flex item wip">
                     <h3>@context.Id</h3>
@@ -53,7 +74,7 @@
             <p class="muted">Tasks that are complete.</p>
         </div>
         <Sortable Items="@DoneItems" Group="kanban" Id="done" DragClass="item-drag" Sort
-        OnChange="HandleChange" OnInsert="HandleInsert" OnDelete="HandleDelete" Class="item-group">
+                  OnChange="HandleChange" OnInsert="HandleInsert" OnDelete="HandleDelete" Class="item-group">
             <SortableItemTemplate>
                 <div class="flex item done">
                     <h3>@context.Id</h3>
@@ -69,34 +90,33 @@
 
 @code
 {
-    [Parameter] public List<KanbanItem>? ToDoItems { get; set; }
-    [Parameter] public List<KanbanItem>? WiPItems { get; set; }
-    [Parameter] public List<KanbanItem>? DoneItems { get; set; }
-
-    private List<KanbanItem> toDoItems = [
+    private List<KanbanItem> BackLogItems = [
+        new(7, "Deploy UI", "for a small project..."),
+        new(8, "Deploy API", "for a small project...")
+    ];
+    private List<KanbanItem> ToDoItems = [
         new(5, "Test UI", "for a small project..."),
         new(6, "Test API", "for a small project...")
     ];
-    private List<KanbanItem> wiPItems = [
-        new(3, "Create UI", "for a small project...") { Type = KanbanItemType.WiP },
-        new(4, "Create API", "for a small project...") { Type = KanbanItemType.WiP },
+    private List<KanbanItem> WiPItems = [
+        new(3, "Create UI", "for a small project..."),
+        new(4, "Create API", "for a small project...")
     ];
-    private List<KanbanItem> doneItems = [
-        new(1, "Plan UI", "for a small project...") { Type = KanbanItemType.Done },
-        new(2, "Plan API", "for a small project...") { Type = KanbanItemType.Done },
+    private List<KanbanItem> DoneItems = [
+        new(1, "Plan UI", "for a small project..."),
+        new(2, "Plan API", "for a small project...")
     ];
-
-    protected override void OnInitialized()
-    {
-        if (ToDoItems is null) ToDoItems = toDoItems;
-        if (WiPItems is null) WiPItems = wiPItems;
-        if (DoneItems is null) DoneItems = doneItems;
-    }
 
     private void HandleChange((int o, int n, string f, string t) index)
     {
         var (oldIndex, newIndex, from, to) = index;
-        if (from == "todo")
+        if (from == "backlog")
+        {
+            var item = BackLogItems![oldIndex];
+            BackLogItems.Remove(item);
+            BackLogItems.Insert(newIndex, item);
+        }
+        else if (from == "todo")
         {
             var item = ToDoItems![oldIndex];
             ToDoItems.Remove(item);
@@ -113,32 +133,46 @@
             var item = DoneItems![oldIndex];
             DoneItems.Remove(item);
             DoneItems.Insert(newIndex, item);
-        }        
+        }
     }
 
     private void HandleInsert((int o, int n, string f, string t) index)
     {
         var (oldIndex, newIndex, from, to) = index;
-        if (from == "todo" && to == "wip") WiPItems?.Insert(newIndex, ToDoItems![oldIndex]);
-        else if (from == "todo" && to == "done") DoneItems?.Insert(newIndex, ToDoItems![oldIndex]);
-        else if (from == "wip" && to == "done") DoneItems?.Insert(newIndex, WiPItems![oldIndex]);
-        else if (from == "wip" && to == "todo") ToDoItems?.Insert(newIndex, WiPItems![oldIndex]);
-        else if (from == "done" && to == "todo") ToDoItems?.Insert(newIndex, DoneItems![oldIndex]);
-        else if (from == "done" && to == "wip") WiPItems?.Insert(newIndex, DoneItems![oldIndex]);
+        if (from == "backlog")
+        {
+            if (to == "todo") ToDoItems?.Insert(newIndex, BackLogItems![oldIndex]);
+            else if (to == "done") DoneItems?.Insert(newIndex, BackLogItems![oldIndex]);
+            else if (to == "wip") WiPItems?.Insert(newIndex, BackLogItems![oldIndex]);
+        }
+        else if (from == "todo")
+        {
+            if (to == "backlog") BackLogItems?.Insert(newIndex, ToDoItems![oldIndex]);
+            else if (to == "wip") WiPItems?.Insert(newIndex, ToDoItems![oldIndex]);
+            else if (to == "done") DoneItems?.Insert(newIndex, ToDoItems![oldIndex]);
+        }
+        else if (from == "wip")
+        {
+            if (to == "backlog") BackLogItems?.Insert(newIndex, WiPItems![oldIndex]);
+            else if (to == "todo") ToDoItems?.Insert(newIndex, WiPItems![oldIndex]);
+            else if (to == "done") DoneItems?.Insert(newIndex, WiPItems![oldIndex]);
+        }
+        else if (from == "done")
+        {
+            if (to == "backlog") BackLogItems?.Insert(newIndex, DoneItems![oldIndex]);
+            else if (to == "todo") ToDoItems?.Insert(newIndex, DoneItems![oldIndex]);
+            else if (to == "wip") WiPItems?.Insert(newIndex, DoneItems![oldIndex]);
+        }
     }
 
     private void HandleDelete((int o, int n, string f, string t) index)
     {
         var (oldIndex, _, from, _) = index;
-        if (from == "todo") ToDoItems?.Remove(ToDoItems[oldIndex]);
-        if (from == "wip") WiPItems?.Remove(WiPItems[oldIndex]);
-        if (from == "done") DoneItems?.Remove(DoneItems[oldIndex]);
+        if (from == "backlog") BackLogItems?.Remove(BackLogItems[oldIndex]);
+        else if (from == "todo") ToDoItems?.Remove(ToDoItems[oldIndex]);
+        else if (from == "wip") WiPItems?.Remove(WiPItems[oldIndex]);
+        else if (from == "done") DoneItems?.Remove(DoneItems[oldIndex]);
     }
 
-    public record KanbanItem(int Id, string Title, string Description)
-    {
-        public KanbanItemType Type { get; set; } = KanbanItemType.ToDo;
-    }
-
-    public enum KanbanItemType { ToDo, WiP, Done }
+    private record KanbanItem(int Id, string Title, string Description);
 }
