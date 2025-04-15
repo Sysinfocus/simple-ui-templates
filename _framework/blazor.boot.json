@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "SimpleUITemplates.UI",
   "resources": {
-    "hash": "sha256-kkVKPjf7o9fRvfzWbiaEOBbRTIQ7OTHec8hsaq5o8g4=",
+    "hash": "sha256-qM8BUvNLzOkUJgWmWA3mEKX4GjNhIcb19Km8P3tiH5o=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.e0w50auoln.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.15b3y9yrbq.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
@@ -17,7 +17,7 @@
       "Microsoft.Extensions.Primitives.4dxofymb0o.wasm": "Microsoft.Extensions.Primitives.wasm",
       "Microsoft.JSInterop.uu8izyvyxp.wasm": "Microsoft.JSInterop.wasm",
       "Microsoft.JSInterop.WebAssembly.p386u0jty9.wasm": "Microsoft.JSInterop.WebAssembly.wasm",
-      "SimpleUITemplates.UI.mhl6pz82w5.wasm": "SimpleUITemplates.UI.wasm",
+      "SimpleUITemplates.UI.708jgpf72b.wasm": "SimpleUITemplates.UI.wasm",
       "Sysinfocus.AspNetCore.Components.q1fnvqsz8n.wasm": "Sysinfocus.AspNetCore.Components.wasm",
       "System.Collections.Concurrent.hauq3jxov5.wasm": "System.Collections.Concurrent.wasm",
       "System.Collections.Immutable.3zsi3fl8or.wasm": "System.Collections.Immutable.wasm",
@@ -84,7 +84,7 @@
       "Microsoft.Extensions.Primitives.4dxofymb0o.wasm": "sha256-GOr7jc/eCieZrQYoXRn79eLSsesIfFB55wQZIVTSNIY=",
       "Microsoft.JSInterop.uu8izyvyxp.wasm": "sha256-qsd7mmvxSN+titwo7yemRryk0nqW7vfS1mopEm2vjoc=",
       "Microsoft.JSInterop.WebAssembly.p386u0jty9.wasm": "sha256-hbzWuXrlepIqY/y+nQ2ZAFer2/njy1dc+Y4LUaAaL5E=",
-      "SimpleUITemplates.UI.mhl6pz82w5.wasm": "sha256-tih97ZZjoYT4gXj8S5/BP2jzvli8vVNkIVo3/dCREW0=",
+      "SimpleUITemplates.UI.708jgpf72b.wasm": "sha256-R3P1Yd5kNGQlpTwGytp6sNFRWR7e+nVsKvZrUwYOLmY=",
       "Sysinfocus.AspNetCore.Components.q1fnvqsz8n.wasm": "sha256-Eq3z7j1frqOvZ3MLAb/+BxRpJadr+Binu2ToxNeZ88w=",
       "System.Collections.Concurrent.hauq3jxov5.wasm": "sha256-J8WL2FeAlPLz55dE7zh1nL16ehjF0oG7fa0Tq2wTdk4=",
       "System.Collections.Immutable.3zsi3fl8or.wasm": "sha256-0c1ze+otptXO3p19rbSWvdvTO3R5yiDi+JmaMBGoFuY=",
